@@ -9,12 +9,14 @@
 
 <!--LABEL CONNECTION-->
 <div style="text-align: right; margin-right: 10px" *ngIf="!successfullConnection">
-  <h4> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h4>
+  <h4>
+    <i class="fa fa-circle" [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h4>
 </div>
 
 <div style="text-align: right; margin-right: 10px" *ngIf="successfullConnection">
-    <h4> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h4>
-  </div>
+  <h4>
+    <i class="fa fa-circle" [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h4>
+</div>
 <!-- END LABEL CONNECTION-->
 
 <!--CONNESSIONE-->
@@ -72,44 +74,48 @@
 </form>
 <!--FINE CONNESSIONE-->
 
-<br><br>
+<br>
+<br>
 <!--TOPIC-->
 <div *ngIf="successfullConnection">
-    <hr>
-<form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
-  <div class="gridTopic">
-    <div><h2 style="text-align: right">Choose topic:</h2></div>
-    <div>
+  <hr>
+  <form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
+    <div class="gridTopic">
       <div>
-        <mat-form-field>
-          <input type="text" matInput placeholder="Topic" class="form-control" name="topicField"  ngModel required>
-        </mat-form-field><br>
-        <label>
-          <i>Es: SYMulation/DataLogger/sensori</i>
-        </label>
-        <br>
-        <label>
-          <i>Es: SYMulation/DataLogger/Motore 2/current</i>
-        </label>
-        <br>
-        <label>
-          <i>Es: SYMulation/DataLogger/Pompa 1/rpm</i>
-        </label>
-        <br>
-        <br>
+        <h2 style="text-align: right">Choose topic:</h2>
       </div>
-    </div>
-
-    <div>
+      <div>
         <div>
-            <div style="text-align: center; margin-right: 5px;">
-              <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
-            </div>
-          </div>
-    </div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Topic" class="form-control" name="topicField" ngModel required>
+          </mat-form-field>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/sensori</i>
+          </label>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/Motore 2/current</i>
+          </label>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/Pompa 1/rpm</i>
+          </label>
+          <br>
+          <br>
+        </div>
+      </div>
 
-  </div>
-</form>
+      <div>
+        <div>
+          <div style="text-align: center; margin-right: 5px;">
+            <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
 </div>
 <!--FINE TOPIC-->
 
@@ -117,7 +123,13 @@
 <br>
 <br>
 
+<!--<div *ngIf="subscribedTopic" #chartTarget>
+  <h1>We we</h1>
+</div>-->
 
+<div #chartTarget [hidden]="subscribedTopic==false">
+
+</div>
 
 
 

@@ -1,13 +1,9 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import {
-  MqttService,
-  IMqttServiceOptions,
-  IMqttMessage
-} from "ngx-mqtt";
-import * as _swal from 'sweetalert';
-import { SweetAlert } from 'sweetalert/typings/core';
-
+import { MqttService, IMqttServiceOptions, IMqttMessage } from "ngx-mqtt";
+import * as _swal from "sweetalert";
+import { SweetAlert } from "sweetalert/typings/core";
+import { chart } from 'highcharts';
 
 
 @Component({
@@ -16,19 +12,52 @@ import { SweetAlert } from 'sweetalert/typings/core';
   styleUrls: ["./home-content.component.css"]
 })
 export class HomeContentComponent implements OnInit {
-  private swal: SweetAlert = _swal as any;
+
+  swal: SweetAlert = _swal as any;
+  @ViewChild("chartTarget") chartTarget: ElementRef;
+  chart: Highcharts.ChartObject;
+
+  public subscribedTopic: boolean;
+  public successfullConnection: boolean;
+
   private connOption: IMqttServiceOptions;
   private measurement = 0;
-  public successfullConnection: boolean;
-  private topic = "SYMulation/DataLogger/sensori";
+  private usefTopic = "";
   private topicTest = "mytest/digit";
-  private formTopic;
+  private defOpt: Highcharts.Options = {
+    chart: {
+      events: {
+        load: function() {}
+      }
+    },
+    time: {
+      useUTC: true
+    },
+
+    title: {
+      text: ""
+    },
+
+    exporting: {
+      enabled: false
+    },
+
+    series: [
+      {
+        name: "random",
+        data: []
+      }
+    ]
+  };
 
   constructor(private _mqttService: MqttService) {
     this.successfullConnection = false;
+    this.subscribedTopic = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   saveConnectionOptions(connectionForm: NgForm) {
     if (connectionForm.valid) {
@@ -50,17 +79,41 @@ export class HomeContentComponent implements OnInit {
   }
 
   subscribeTopic(topicForm: NgForm) {
+    let myChart = this.chart;
+    const options = this.defOpt;
+    const series = options.series[0];
+
     if (topicForm.valid) {
       const topic = topicForm.value;
-
+      this.usefTopic = topic.topicField;
       if (this.successfullConnection) {
-        this._mqttService.observe(topic.topicField).subscribe((message: IMqttMessage) => {
-          console.log(`Sottoscritto topic: ${message.topic}`);
-          this.measurement = JSON.parse(message.payload.toString());
-          console.dir(this.measurement);
-        });
-        swal("SUBSCRIBED!", `You have subscribed the topic ${topic.topicField}`, "info");
-      }
+        this.defOpt.chart.events.load = () => {
+        this._mqttService
+          .observe(topic.topicField)
+          .subscribe((message: IMqttMessage) => {
+            console.log(`Sottoscritto topic: ${message.topic}`);
+            this.measurement = JSON.parse(message.payload.toString());
+            console.dir(this.measurement);
+            this.subscribedTopic = true;
+            // this.createChart();
+            options.title.text = "Dati Random";
+            const x = new Date().toDateString();
+            const y = this.measurement;
+            if (series.data.length > 50) {
+              series.data.shift();
+            }
+            series.data.push([x, y]);
+            myChart.update(options);
+          });
+
+        swal(
+          "SUBSCRIBED!",
+          `You have subscribed the topic ${topic.topicField}`,
+          "info"
+        );
+      };
+      myChart = chart(this.chartTarget.nativeElement, this.defOpt);
+    }
     }
   }
 
@@ -77,11 +130,32 @@ export class HomeContentComponent implements OnInit {
 
     this._mqttService.onError.subscribe(error => {
       console.log("Errore di connesione.");
-      swal("CONNECTION ERROR!", `Check the broker or the connection option`, "error");
-    });
-
-    this._mqttService.onError.subscribe(error => {
-      console.log("Errore di connesione.");
+      swal(
+        "CONNECTION ERROR!",
+        `Check the broker or the connection option`,
+        "error"
+      );
     });
   }
+
+  createChart() {
+    let myChart = this.chart;
+    const options = this.defOpt;
+    const series = options.series[0];
+
+    this.defOpt.chart.events.load = () => {
+      options.title.text = "Dati Random";
+      const x = new Date().toDateString();
+      const y = this.measurement;
+
+      if (series.data.length > 50) {
+        series.data.shift();
+      }
+
+      series.data.push([x, y]);
+      myChart.update(options);
+    };
+    myChart = chart(this.chartTarget.nativeElement, this.defOpt);
+  }
+
 }
