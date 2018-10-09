@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  connectOnCreate: false
 };
 
 

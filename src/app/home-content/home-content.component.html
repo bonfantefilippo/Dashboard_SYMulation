@@ -41,13 +41,17 @@
         </div>
         <div>
           <mat-form-field>
-            <input type="text" matInput placeholder="Port" class="form-control" name="port" ngModel required>
+            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3001" disabled>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
-            <input type="text" matInput placeholder="Topic" class="form-control" name="topic" ngModel required>
+            <input type="text" matInput placeholder="Topic" class="form-control" name="topic" value="SYMulation/DataLogger/sensori" ngModel required>
           </mat-form-field>
+          <label><i>Esempio: SYMulation/DataLogger/sensori</i></label><br>
+          <label><i>Esempio: SYMulation/DataLogger/Motore 2/current</i></label><br>
+          <label><i>Esempio: SYMulation/DataLogger/Pompa 1/rpm</i></label><br><br>
+
         </div>
       </div>
 
@@ -67,18 +71,21 @@
 <br>
 <br>
 <h1 style="text-align: center">SYMulation Data</h1>
+<!--
 <div class="gridTab">
+
   <div>
     <mat-tab-group dynamicHeight style="margin-left:5px !important; margin-left:5px !important;">
       <mat-tab label="Device">
         <div style="margin-top:5px !important; margin-left:5px !important;">
           <mat-chip-list>
-            <mat-chip color="primary" selected>Primary fish</mat-chip>
+            <mat-chip color="primary" selected>alalala</mat-chip>
           </mat-chip-list>
         </div>
       </mat-tab>
     </mat-tab-group>
   </div>
+
   <div>
     <mat-tab-group dynamicHeight style="margin-left:5px !important; margin-left:5px !important;">
       <mat-tab label="Sensor">
@@ -101,4 +108,4 @@
   <div style="text-align: right; margin-right: 5px;">
     <button mat-stroked-button mat-primary>VIEW CHART</button>
   </div>
-</div>
+</div>-->
