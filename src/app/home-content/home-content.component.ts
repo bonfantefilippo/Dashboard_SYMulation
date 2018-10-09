@@ -4,6 +4,7 @@ import { MqttService, IMqttServiceOptions, IMqttMessage } from "ngx-mqtt";
 import * as _swal from "sweetalert";
 import { SweetAlert } from "sweetalert/typings/core";
 import { chart } from 'highcharts';
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -16,14 +17,13 @@ export class HomeContentComponent implements OnInit {
   swal: SweetAlert = _swal as any;
   @ViewChild("chartTarget") chartTarget: ElementRef;
   chart: Highcharts.ChartObject;
-
+  public subscriptionObject: Subscription;
   public subscribedTopic: boolean;
   public successfullConnection: boolean;
 
   private connOption: IMqttServiceOptions;
   private measurement = 0;
   private usefTopic = "";
-  private topicTest = "mytest/digit";
   private defOpt: Highcharts.Options = {
     chart: {
       events: {
@@ -88,7 +88,7 @@ export class HomeContentComponent implements OnInit {
       this.usefTopic = topic.topicField;
       if (this.successfullConnection) {
         this.defOpt.chart.events.load = () => {
-        this._mqttService
+         this.subscriptionObject = this._mqttService
           .observe(topic.topicField)
           .subscribe((message: IMqttMessage) => {
             console.log(`Sottoscritto topic: ${message.topic}`);
@@ -104,7 +104,9 @@ export class HomeContentComponent implements OnInit {
             }
             series.data.push([x, y]);
             myChart.update(options);
-          });
+          },
+          (error: any) => console.log(error),
+        );
 
         swal(
           "SUBSCRIBED!",
@@ -115,6 +117,16 @@ export class HomeContentComponent implements OnInit {
       myChart = chart(this.chartTarget.nativeElement, this.defOpt);
     }
     }
+  }
+
+  unSubscribeTopic() {
+    console.log("Unsubscribed");
+    this.subscriptionObject.unsubscribe();
+    swal(
+      "UNSUBSCRIBED!",
+      ``,
+      "warning"
+    );
   }
 
   manageConnection() {
@@ -138,7 +150,7 @@ export class HomeContentComponent implements OnInit {
     });
   }
 
-  createChart() {
+  /*createChart() {
     let myChart = this.chart;
     const options = this.defOpt;
     const series = options.series[0];
@@ -156,6 +168,6 @@ export class HomeContentComponent implements OnInit {
       myChart.update(options);
     };
     myChart = chart(this.chartTarget.nativeElement, this.defOpt);
-  }
+  }*/
 
 }
