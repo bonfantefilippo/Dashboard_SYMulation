@@ -9,11 +9,11 @@
 
 <!--LABEL CONNECTION-->
 <div style="text-align: right; margin-right: 10px" *ngIf="!successfullConnection">
-  <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h5>
+  <h4> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h4>
 </div>
 
 <div style="text-align: right; margin-right: 10px" *ngIf="successfullConnection">
-    <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h5>
+    <h4> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h4>
   </div>
 <!-- END LABEL CONNECTION-->
 
@@ -71,17 +71,18 @@
   </div>
 </form>
 <!--FINE CONNESSIONE-->
-<hr>
 
+<br><br>
 <!--TOPIC-->
 <div *ngIf="successfullConnection">
+    <hr>
 <form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
   <div class="gridTopic">
     <div><h2 style="text-align: right">Choose topic:</h2></div>
     <div>
       <div>
         <mat-form-field>
-          <input type="text" matInput placeholder="Topic" class="form-control" name="topic"  ngModel required>
+          <input type="text" matInput placeholder="Topic" class="form-control" name="topicField"  ngModel required>
         </mat-form-field><br>
         <label>
           <i>Es: SYMulation/DataLogger/sensori</i>
@@ -101,7 +102,7 @@
 
     <div>
         <div>
-            <div style="text-align: right; margin-right: 5px;">
+            <div style="text-align: center; margin-right: 5px;">
               <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
             </div>
           </div>
@@ -112,9 +113,10 @@
 </div>
 <!--FINE TOPIC-->
 
+
 <br>
 <br>
-<h1 style="text-align: center">SYMulation Data</h1>
+
 
 
 

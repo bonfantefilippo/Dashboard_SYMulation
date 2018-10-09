@@ -3,9 +3,12 @@ import { NgForm } from "@angular/forms";
 import {
   MqttService,
   IMqttServiceOptions,
-  IMqttMessage,
-  IOnErrorEvent
+  IMqttMessage
 } from "ngx-mqtt";
+import * as _swal from 'sweetalert';
+import { SweetAlert } from 'sweetalert/typings/core';
+
+
 
 @Component({
   selector: "app-home-content",
@@ -13,6 +16,7 @@ import {
   styleUrls: ["./home-content.component.css"]
 })
 export class HomeContentComponent implements OnInit {
+  private swal: SweetAlert = _swal as any;
   private connOption: IMqttServiceOptions;
   private measurement = 0;
   public successfullConnection: boolean;
@@ -50,11 +54,12 @@ export class HomeContentComponent implements OnInit {
       const topic = topicForm.value;
 
       if (this.successfullConnection) {
-        this._mqttService.observe(topic.topic).subscribe((message: IMqttMessage) => {
+        this._mqttService.observe(topic.topicField).subscribe((message: IMqttMessage) => {
           console.log(`Sottoscritto topic: ${message.topic}`);
           this.measurement = JSON.parse(message.payload.toString());
           console.dir(this.measurement);
         });
+        swal("SUBSCRIBED!", `You have subscribed the topic ${topic.topicField}`, "info");
       }
     }
   }
@@ -63,6 +68,7 @@ export class HomeContentComponent implements OnInit {
     this._mqttService.onConnect.subscribe(() => {
       console.warn("Connesso al broker");
       this.successfullConnection = true;
+      swal("CONNECTED!", `Connected to broker`, "success");
     });
 
     this._mqttService.onMessage.subscribe(() => {
@@ -71,6 +77,7 @@ export class HomeContentComponent implements OnInit {
 
     this._mqttService.onError.subscribe(error => {
       console.log("Errore di connesione.");
+      swal("CONNECTION ERROR!", `Check the broker or the connection option`, "error");
     });
 
     this._mqttService.onError.subscribe(error => {
