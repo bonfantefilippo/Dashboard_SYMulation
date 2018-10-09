@@ -1,0 +1,63 @@
+.header {
+  display: flex;
+  width: 100%;
+  height: auto;
+  background-color: #dce2f970;
+}
+.logo {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.titleHeader {
+  color: rgb(0, 0, 255);
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  vertical-align: top;
+}
+
+
+
+.gridTable {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.gridDue {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.gridCont {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.gridTab {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.gridBtn {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+
+.gridTopic {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+
+
+
+

@@ -1,0 +1,170 @@
+<div class="header">
+  <div>
+    <img src="../../assets/favi.png" alt="logo" class="logo" width="auto" height="50px">
+  </div>
+  <h1 class="titleHeader">SYMulation Dashboard</h1>
+
+</div>
+<br>
+
+<!--LABEL CONNECTION-->
+<div style="text-align: right; margin-right: 10px" *ngIf="!successfullConnection">
+  <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h5>
+</div>
+
+<div style="text-align: right; margin-right: 10px" *ngIf="successfullConnection">
+    <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h5>
+  </div>
+<!-- END LABEL CONNECTION-->
+
+<!--CONNESSIONE-->
+<form #connectionForm="ngForm" (ngSubmit)="saveConnectionOptions(connectionForm)">
+  <div class="gridCont">
+    <div></div>
+    <div>
+
+      <div class="gridTable">
+        <div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="ClientID" class="form-control" name="clientId" ngModel required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Username" class="form-control" name="username" ngModel required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" class="form-control" name="password" ngModel required>
+          </mat-form-field>
+        </div>
+
+
+
+      </div>
+      <!--fine gridTable-->
+
+
+      <div class="gridDue">
+        <div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Hostname" class="form-control" name="hostname" ngModel required>
+          </mat-form-field>
+        </div>
+
+
+        <div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3001" disabled>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div>
+        <div style="text-align: right; margin-right: 5px;">
+          <button type="submit" mat-stroked-button mat-primary [disabled]="connectionForm.invalid">CONNECT</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+<!--FINE CONNESSIONE-->
+<hr>
+
+<!--TOPIC-->
+<div *ngIf="successfullConnection">
+<form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
+  <div class="gridTopic">
+    <div><h2 style="text-align: right">Choose topic:</h2></div>
+    <div>
+      <div>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Topic" class="form-control" name="topic"  ngModel required>
+        </mat-form-field><br>
+        <label>
+          <i>Es: SYMulation/DataLogger/sensori</i>
+        </label>
+        <br>
+        <label>
+          <i>Es: SYMulation/DataLogger/Motore 2/current</i>
+        </label>
+        <br>
+        <label>
+          <i>Es: SYMulation/DataLogger/Pompa 1/rpm</i>
+        </label>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <div>
+        <div>
+            <div style="text-align: right; margin-right: 5px;">
+              <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
+            </div>
+          </div>
+    </div>
+
+  </div>
+</form>
+</div>
+<!--FINE TOPIC-->
+
+<br>
+<br>
+<h1 style="text-align: center">SYMulation Data</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="gridTab">
+
+  <div>
+    <mat-tab-group dynamicHeight style="margin-left:5px !important; margin-left:5px !important;">
+      <mat-tab label="Device">
+        <div style="margin-top:5px !important; margin-left:5px !important;">
+          <mat-chip-list>
+            <mat-chip color="primary" selected>alalala</mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div>
+    <mat-tab-group dynamicHeight style="margin-left:5px !important; margin-left:5px !important;">
+      <mat-tab label="Sensor">
+        <div style="margin-top:5px !important; margin-left:5px !important;">
+          <mat-chip-list>
+            <mat-chip color="accent" selected>Accent fish</mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+
+<div class="gridBtn">
+  <div></div>
+  <div>
+
+  </div>
+  <div style="text-align: right; margin-right: 5px;">
+    <button mat-stroked-button mat-primary>VIEW CHART</button>
+  </div>
+</div>-->
