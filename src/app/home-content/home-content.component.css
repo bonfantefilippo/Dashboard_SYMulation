@@ -26,6 +26,12 @@
   grid-gap: 10px;
 }
 
+.gridDue {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
 .gridCont {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -39,6 +45,13 @@
 }
 
 .gridBtn {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+
+.gridTopic {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
