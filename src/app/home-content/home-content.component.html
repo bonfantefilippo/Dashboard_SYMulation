@@ -123,17 +123,16 @@
 <br>
 <br>
 
-<!--<div *ngIf="subscribedTopic" #chartTarget>
-  <h1>We we</h1>
-</div>-->
-<div [hidden]="subscribedTopic==false" style="text-align: right; margin-right: 5px;">
-  <button type="button" mat-stroked-button mat-warn color="warn" (click)="unSubscribeTopic()">UNSUBSCRIBE</button>
-</div>
-<div #chartTarget [hidden]="subscribedTopic==false">
+
+<div [hidden]="subscribedTopic==false">
+  <div [hidden]="subscribedTopic==false" style="text-align: right; margin-right: 5px;">
+    <button type="button" [disabled]="hideOnUnsub==false" mat-stroked-button mat-warn color="warn" (click)="unSubscribeTopic()">UNSUBSCRIBE</button>
+  </div>
+  <div #chartTarget>
+
+  </div>
 
 </div>
-
-
 
 
 

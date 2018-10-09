@@ -20,6 +20,7 @@ export class HomeContentComponent implements OnInit {
   public subscriptionObject: Subscription;
   public subscribedTopic: boolean;
   public successfullConnection: boolean;
+  public hideOnUnsub: boolean;
 
   private connOption: IMqttServiceOptions;
   private measurement = 0;
@@ -31,7 +32,7 @@ export class HomeContentComponent implements OnInit {
       }
     },
     time: {
-      useUTC: true
+      useUTC: false
     },
 
     title: {
@@ -53,6 +54,7 @@ export class HomeContentComponent implements OnInit {
   constructor(private _mqttService: MqttService) {
     this.successfullConnection = false;
     this.subscribedTopic = false;
+    this.hideOnUnsub = false;
   }
 
   ngOnInit() {
@@ -95,9 +97,10 @@ export class HomeContentComponent implements OnInit {
             this.measurement = JSON.parse(message.payload.toString());
             console.dir(this.measurement);
             this.subscribedTopic = true;
+            this.hideOnUnsub = true;
             // this.createChart();
             options.title.text = "Dati Random";
-            const x = new Date().toDateString();
+            const x = new Date().toLocaleDateString();
             const y = this.measurement;
             if (series.data.length > 50) {
               series.data.shift();
@@ -115,13 +118,27 @@ export class HomeContentComponent implements OnInit {
         );
       };
       myChart = chart(this.chartTarget.nativeElement, this.defOpt);
+      this.chart = myChart;
     }
     }
   }
 
   unSubscribeTopic() {
+    const options = this.defOpt;
+    const series = options.series[0];
+
     console.log("Unsubscribed");
     this.subscriptionObject.unsubscribe();
+    //series.data.splice(0, series.data.length);
+    const x = 0;
+    const y = 0;
+    console.log(series.data);
+    series.data = [[x, y].pop()];
+    console.log(series.data);
+    this.chart.destroy();
+    this.hideOnUnsub = false;
+    //this.chart.update(options);
+    console.log(series.data);
     swal(
       "UNSUBSCRIBED!",
       ``,
