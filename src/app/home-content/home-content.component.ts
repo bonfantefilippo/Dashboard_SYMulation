@@ -4,13 +4,13 @@ import { MqttService, IMqttServiceOptions, IMqttMessage } from "ngx-mqtt";
 import * as _swal from "sweetalert";
 import { SweetAlert } from "sweetalert/typings/core";
 import { chart } from 'highcharts';
-import { Subscription } from "rxjs";
+import { Subscription, Observable, timer } from "rxjs";
 
 
 @Component({
   selector: "app-home-content",
   templateUrl: "./home-content.component.html",
-  styleUrls: ["./home-content.component.css"]
+  styleUrls: ["./home-content.component.css", "./spinner.scss"]
 })
 export class HomeContentComponent implements OnInit {
 
@@ -21,10 +21,13 @@ export class HomeContentComponent implements OnInit {
   public subscribedTopic: boolean;
   public successfullConnection: boolean;
   public hideOnUnsub: boolean;
+  public showSpinner: boolean;
+  public usefTopic;
 
   private connOption: IMqttServiceOptions;
   private measurement = 0;
-  private usefTopic = "";
+  private spinnerSubscription: Subscription;
+  private spinnerTimer: Observable<any>;
   private defOpt: Highcharts.Options = {
     chart: {
       events: {
@@ -55,10 +58,22 @@ export class HomeContentComponent implements OnInit {
     this.successfullConnection = false;
     this.subscribedTopic = false;
     this.hideOnUnsub = false;
+    this.showSpinner = false;
   }
 
   ngOnInit() {
 
+  }
+
+   setTimer() {
+    this.showSpinner   = true;
+
+    this.spinnerTimer = timer(5000);
+    this.spinnerSubscription = this.spinnerTimer.subscribe(() => {
+        this.showSpinner = false;
+        this.subscribedTopic = true;
+
+    });
   }
 
   saveConnectionOptions(connectionForm: NgForm) {
@@ -67,12 +82,14 @@ export class HomeContentComponent implements OnInit {
 
       this.connOption = {
         hostname: formValue.hostname,
-        port: 3001,
+      //hostname": "13.94.229.181",
+        port: 3000,
+        //port: 3001,
         path: "",
         username: formValue.username, //admin
         password: formValue.password, //secret
         clientId: formValue.clientId,
-        protocol: "wss"
+        protocol: "ws"
       };
 
       this._mqttService.connect(this.connOption);
@@ -86,6 +103,7 @@ export class HomeContentComponent implements OnInit {
     const series = options.series[0];
 
     if (topicForm.valid) {
+      this.setTimer();
       const topic = topicForm.value;
       this.usefTopic = topic.topicField;
       if (this.successfullConnection) {
@@ -96,19 +114,21 @@ export class HomeContentComponent implements OnInit {
             console.log(`Sottoscritto topic: ${message.topic}`);
             this.measurement = JSON.parse(message.payload.toString());
             console.dir(this.measurement);
-            this.subscribedTopic = true;
-            this.hideOnUnsub = true;
-            // this.createChart();
             options.title.text = "Dati Random";
             const x = new Date().toLocaleDateString();
             const y = this.measurement;
+
             if (series.data.length > 50) {
               series.data.shift();
             }
             series.data.push([x, y]);
             myChart.update(options);
+            this.hideOnUnsub = true;
           },
           (error: any) => console.log(error),
+          () => {
+            this.spinnerSubscription.unsubscribe();
+          }
         );
 
         swal(
@@ -137,6 +157,7 @@ export class HomeContentComponent implements OnInit {
     console.log(series.data);
     this.chart.destroy();
     this.hideOnUnsub = false;
+    this.subscribedTopic = false;
     //this.chart.update(options);
     console.log(series.data);
     swal(

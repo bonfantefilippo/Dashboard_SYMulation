@@ -53,12 +53,13 @@
           <mat-form-field>
             <input type="text" matInput placeholder="Hostname" class="form-control" name="hostname" ngModel required>
           </mat-form-field>
+          <label>13.94.229.181</label>
         </div>
 
 
         <div>
           <mat-form-field>
-            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3001" disabled>
+            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3000" disabled>
           </mat-form-field>
         </div>
       </div>
@@ -118,10 +119,35 @@
   </form>
 </div>
 <!--FINE TOPIC-->
-
-
 <br>
 <br>
+
+<!--SPINNER E GRAFICO-->
+<div class="gridSpinner">
+    <div></div>
+    <div style="text-align: center">
+      <div *ngIf="showSpinner==true">
+        <!--<mat-spinner></mat-spinner>-->
+        <br><br>
+        <div class="spinner" style="left: 50%;">
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+          </div>
+
+    </div>
+  </div>
+    <div></div>
+  </div>
 
 
 <div [hidden]="subscribedTopic==false">
@@ -133,7 +159,7 @@
   </div>
 
 </div>
-
+<!--SPINNER E GRAFICO-->
 
 
 
