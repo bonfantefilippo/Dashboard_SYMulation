@@ -9,12 +9,14 @@
 
 <!--LABEL CONNECTION-->
 <div style="text-align: right; margin-right: 10px" *ngIf="!successfullConnection">
-  <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h5>
+  <h4>
+    <i class="fa fa-circle" [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Not connected</h4>
 </div>
 
 <div style="text-align: right; margin-right: 10px" *ngIf="successfullConnection">
-    <h5> <i class="fa fa-circle"  [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h5>
-  </div>
+  <h4>
+    <i class="fa fa-circle" [ngStyle]="{'color': successfullConnection === true ? 'green' : 'red'}"></i> Connected</h4>
+</div>
 <!-- END LABEL CONNECTION-->
 
 <!--CONNESSIONE-->
@@ -51,12 +53,13 @@
           <mat-form-field>
             <input type="text" matInput placeholder="Hostname" class="form-control" name="hostname" ngModel required>
           </mat-form-field>
+          <label>13.94.229.181</label>
         </div>
 
 
         <div>
           <mat-form-field>
-            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3001" disabled>
+            <input type="text" matInput placeholder="Port" class="form-control" name="port" value="3000" disabled>
           </mat-form-field>
         </div>
       </div>
@@ -71,54 +74,92 @@
   </div>
 </form>
 <!--FINE CONNESSIONE-->
-<hr>
 
+<br>
+<br>
 <!--TOPIC-->
 <div *ngIf="successfullConnection">
-<form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
-  <div class="gridTopic">
-    <div><h2 style="text-align: right">Choose topic:</h2></div>
-    <div>
+  <hr>
+  <form #topicForm="ngForm" (ngSubmit)="subscribeTopic(topicForm)">
+    <div class="gridTopic">
       <div>
-        <mat-form-field>
-          <input type="text" matInput placeholder="Topic" class="form-control" name="topic"  ngModel required>
-        </mat-form-field><br>
-        <label>
-          <i>Es: SYMulation/DataLogger/sensori</i>
-        </label>
-        <br>
-        <label>
-          <i>Es: SYMulation/DataLogger/Motore 2/current</i>
-        </label>
-        <br>
-        <label>
-          <i>Es: SYMulation/DataLogger/Pompa 1/rpm</i>
-        </label>
-        <br>
-        <br>
+        <h2 style="text-align: right">Choose topic:</h2>
       </div>
-    </div>
-
-    <div>
+      <div>
         <div>
-            <div style="text-align: right; margin-right: 5px;">
-              <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
-            </div>
-          </div>
-    </div>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Topic" class="form-control" name="topicField" ngModel required>
+          </mat-form-field>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/sensori</i>
+          </label>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/Motore 2/current</i>
+          </label>
+          <br>
+          <label>
+            <i>Es: SYMulation/DataLogger/Pompa 1/rpm</i>
+          </label>
+          <br>
+          <br>
+        </div>
+      </div>
 
-  </div>
-</form>
+      <div>
+        <div>
+          <div style="text-align: center; margin-right: 5px;">
+            <button type="submit" mat-stroked-button mat-success [disabled]="topicForm.invalid">SUBSCRIBE</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
 </div>
 <!--FINE TOPIC-->
-
 <br>
 <br>
-<h1 style="text-align: center">SYMulation Data</h1>
+
+<!--SPINNER E GRAFICO-->
+<div class="gridSpinner">
+    <div></div>
+    <div style="text-align: center">
+      <div *ngIf="showSpinner==true">
+        <!--<mat-spinner></mat-spinner>-->
+        <br><br>
+        <div class="spinner" style="left: 50%;">
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+          </div>
+
+    </div>
+  </div>
+    <div></div>
+  </div>
 
 
+<div [hidden]="subscribedTopic==false">
+  <div [hidden]="subscribedTopic==false" style="text-align: right; margin-right: 5px;">
+    <button type="button" [disabled]="hideOnUnsub==false" mat-stroked-button mat-warn color="warn" (click)="unSubscribeTopic()">UNSUBSCRIBE</button>
+  </div>
+  <div #chartTarget>
 
+  </div>
 
+</div>
+<!--SPINNER E GRAFICO-->
 
 
 

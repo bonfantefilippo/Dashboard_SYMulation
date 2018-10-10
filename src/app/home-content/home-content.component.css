@@ -3,6 +3,10 @@
   width: 100%;
   height: auto;
   background-color: #dce2f970;
+  margin-top: 0;
+  -webkit-box-shadow: 0px 9px 17px -4px rgba(0, 0, 0, 0.62);
+  -moz-box-shadow: 0px 9px 17px -4px rgba(0, 0, 0, 0.62);
+  box-shadow: 0px 9px 17px -4px rgba(0, 0, 0, 0.62);
 }
 .logo {
   margin-left: 20px;
@@ -17,8 +21,6 @@
   margin-left: 20px;
   vertical-align: top;
 }
-
-
 
 .gridTable {
   display: grid;
@@ -50,8 +52,13 @@
   grid-gap: 10px;
 }
 
-
 .gridTopic {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.gridSpinner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
@@ -60,4 +67,32 @@
 
 
 
+*, *:before, *:after {
+	box-sizing: border-box;
+	position: relative;
+}
+
+svg {
+	display: block;
+
+	margin: 0; padding: 0;
+}
+
+html, body {
+	width: 100%; height: 100%;
+
+	margin: 0; padding: 0;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: #F8F1DE;
+}
+
+.spinner {
+	width: 66px; height: 66px;
+
+	animation: contanim 2s linear infinite;
+}
 

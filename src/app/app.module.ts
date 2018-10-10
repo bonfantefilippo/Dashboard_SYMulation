@@ -12,6 +12,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatChipsModule} from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
 import { MqttModule, IMqttServiceOptions } from 'ngx-mqtt';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   connectOnCreate: false
@@ -30,7 +31,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     BrowserModule,
     FormsModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
-    MatToolbarModule, MatButtonModule, MatInputModule, MatFormFieldModule, MatTabsModule, MatChipsModule
+    MatToolbarModule, MatButtonModule, MatInputModule, MatFormFieldModule, MatTabsModule, MatChipsModule, MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
