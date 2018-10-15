@@ -2,3 +2,8 @@
 .mat-form-field-infix {
   width: 25vw !important;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
