@@ -46,9 +46,6 @@ export class HomeContentComponent implements OnInit {
     exporting: {
       enabled: false
     },
-    yAxis: {
-     // max: 20
-    },
     xAxis: {
       type: "datetime"
     },
