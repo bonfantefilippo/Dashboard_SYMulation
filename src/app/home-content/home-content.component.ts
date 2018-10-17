@@ -35,7 +35,8 @@ export class HomeContentComponent implements OnInit {
       }
     },
     time: {
-      useUTC: false
+      //timezone: ''
+      useUTC: true
     },
 
     title: {
@@ -45,10 +46,12 @@ export class HomeContentComponent implements OnInit {
     exporting: {
       enabled: false
     },
-
+   /* xAxis: {
+      type: "datetime"
+    },*/
     series: [
       {
-        name: "random",
+        name: "values",
         data: []
       }
     ]
@@ -83,13 +86,13 @@ export class HomeContentComponent implements OnInit {
       this.connOption = {
         hostname: formValue.hostname,
       //hostname": "13.94.229.181",
-        port: 3000,
-        //port: 3001,
+       // port: 3000,
+        port: 3001,
         path: "",
         username: formValue.username, //admin
         password: formValue.password, //secret
         clientId: formValue.clientId,
-        protocol: "ws"
+        protocol: "wss"
       };
 
       this._mqttService.connect(this.connOption);
@@ -113,15 +116,26 @@ export class HomeContentComponent implements OnInit {
           .subscribe((message: IMqttMessage) => {
             console.log(`Sottoscritto topic: ${message.topic}`);
             this.measurement = JSON.parse(message.payload.toString());
-            console.dir(this.measurement);
-            options.title.text = "Dati Random";
-            const x = new Date().toLocaleDateString();
-            const y = this.measurement;
+            const title = message.topic.split("/", 6);
 
+            console.log(title[5]);
+            if (title[5] === undefined) {
+              options.title.text = `${title[3]} - ${title[4]}`.toUpperCase();
+            }else{
+              options.title.text = `${title[3]} - ${title[4]} - ${title[5]}`.toUpperCase();
+            }
+           // options.title.text = `${title[3]} - ${title[4]} - ${title[5]}`.toUpperCase();
+            const x = new Date(this.measurement[0].timestamp).getTime();
+            console.log(x);
+            const y = this.measurement[0].value;
+            console.table(this.measurement)
             if (series.data.length > 50) {
               series.data.shift();
             }
+           // series.yAxis = this.measurement;
+
             series.data.push([x, y]);
+            console.log(series.data);
             myChart.update(options);
             this.hideOnUnsub = true;
           },
@@ -138,6 +152,7 @@ export class HomeContentComponent implements OnInit {
         );
       };
       myChart = chart(this.chartTarget.nativeElement, this.defOpt);
+      window.scrollTo(0, document.body.scrollHeight);
       this.chart = myChart;
     }
     }
@@ -188,24 +203,22 @@ export class HomeContentComponent implements OnInit {
     });
   }
 
-  /*createChart() {
-    let myChart = this.chart;
-    const options = this.defOpt;
-    const series = options.series[0];
+  /*
+    const MqttTopicInflux = 'SYMulation/DataLogger/sensori';
 
-    this.defOpt.chart.events.load = () => {
-      options.title.text = "Dati Random";
-      const x = new Date().toDateString();
-      const y = this.measurement;
+    const MqttTopicPath = 'SYMulation/DataLogger/';
 
-      if (series.data.length > 50) {
-        series.data.shift();
-      }
-
-      series.data.push([x, y]);
-      myChart.update(options);
-    };
-    myChart = chart(this.chartTarget.nativeElement, this.defOpt);
-  }*/
+    const MqttTopicPompa1 = MqttTopicPath + 'Pompa1';
+    const MqttTopicPompa2 =  MqttTopicPath + 'Pompa2';
+    const MqttTopicVentilatore =  MqttTopicPath + 'Ventilatore';
+    const MqttTopicMotore1 =  MqttTopicPath + 'Motore1';
+    const MqttTopicMotore2 =  MqttTopicPath + 'Motore2';
+    const MqttTopicVasca1 =  MqttTopicPath + 'Vasca1';
+    const MqttTopicVasca2 =  MqttTopicPath + 'Vasca2';
+    const MqttTopicVasca3 =  MqttTopicPath + 'Vasca3';
+    const MqttTopicVasca4 =  MqttTopicPath + 'Vasca4';
+    const MqttTopicVasca5 =  MqttTopicPath + 'Vasca5';
+    const MqttTopicVasca6 =  MqttTopicPath + 'Vasca6';
+  */
 
 }
