@@ -35,7 +35,7 @@ export class HomeContentComponent implements OnInit {
       }
     },
     time: {
-      //timezone: 'Europe/London'
+      //timezone: ''
       useUTC: true
     },
 
@@ -46,9 +46,9 @@ export class HomeContentComponent implements OnInit {
     exporting: {
       enabled: false
     },
-    xAxis: {
+   /* xAxis: {
       type: "datetime"
-    },
+    },*/
     series: [
       {
         name: "values",
@@ -116,15 +116,19 @@ export class HomeContentComponent implements OnInit {
           .subscribe((message: IMqttMessage) => {
             console.log(`Sottoscritto topic: ${message.topic}`);
             this.measurement = JSON.parse(message.payload.toString());
-            console.dir(this.measurement);
             const title = message.topic.split("/", 6);
 
-           console.log(title[5]);
-            options.title.text = `${title[3]} - ${title[4]} - ${title[5]}`.toUpperCase();
+            console.log(title[5]);
+            if (title[5] === undefined) {
+              options.title.text = `${title[3]} - ${title[4]}`.toUpperCase();
+            }else{
+              options.title.text = `${title[3]} - ${title[4]} - ${title[5]}`.toUpperCase();
+            }
+           // options.title.text = `${title[3]} - ${title[4]} - ${title[5]}`.toUpperCase();
             const x = new Date(this.measurement[0].timestamp).getTime();
             console.log(x);
-
             const y = this.measurement[0].value;
+            console.table(this.measurement)
             if (series.data.length > 50) {
               series.data.shift();
             }

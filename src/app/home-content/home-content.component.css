@@ -1,4 +1,4 @@
-h1, h2, h4 {
+h1, h2, h4, label {
   font-family: 'Source Sans Pro', sans-serif;
 }
 .header {
@@ -49,6 +49,7 @@ h1, h2, h4 {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
 }
+
 
 .gridBtn {
   display: grid;
